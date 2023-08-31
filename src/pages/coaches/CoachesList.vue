@@ -10,8 +10,9 @@
             <base-card>
                 <div class="controls">
                     <base-button mode="outline" @click="loadCoaches(true)">Refresh</base-button>
+                    <base-button link to="/auth?redirect=register" v-if="!isLoggedIn">Login to Register as a coach</base-button>
                     <!-- thuộc tính link để như dưới nghĩa là link = true -->
-                    <base-button v-if="!isCoach && !isLoading" link to="/register">Register as a coach</base-button>
+                    <base-button v-if="!isCoach && !isLoading && isLoggedIn" link to="/register">Register as a coach</base-button>
                 </div>
                 <div v-if="isLoading">
                     <base-spinner></base-spinner>
@@ -47,6 +48,9 @@ export default {
     },
 
     computed: {
+        isLoggedIn(){
+            return this.$store.getters.isAuthenticated;
+        },
         isCoach() {
             return this.$store.getters['coaches/isCoach'];
         },
